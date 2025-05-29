@@ -1,67 +1,158 @@
-# Vietnamese News Summarization Enhancement
+# Enhanced Vietnamese News Summarization
 ## Advanced NLP Techniques for Graduation Thesis
 
-This project enhances the VietAI/vit5-large-vietnews-summarization model with advanced NLP techniques for Vietnamese text summarization.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project enhances the VietAI/vit5-large-vietnews-summarization model with advanced NLP techniques for Vietnamese text summarization, implementing state-of-the-art neural architectures for improved performance.
 
 ## 🎯 Project Overview
 
-### Core Enhancements
-1. **Enhanced Attention Mechanisms**: Self-attention improvements for better context understanding
-2. **Pointer-Generator Networks**: Handle rare words and Vietnamese proper nouns effectively
-3. **Coverage Mechanism**: Reduce repetition and improve content coverage
-4. **Curriculum Learning**: Progressive training from simple to complex texts
+This thesis project demonstrates three key enhancements to transformer-based summarization:
 
-### Technical Stack
-- **Base Model**: VietAI/vit5-large-vietnews-summarization
-- **Framework**: PyTorch, Transformers
-- **Dataset**: Vietnews (tuoitre.vn, vnexpress.net, nguoiduatin.vn)
-- **Interface**: Streamlit
-- **Evaluation**: ROUGE, BLEU, BERTScore
+### 🧠 Core Technical Innovations
+
+#### 1. **Enhanced Self-Attention Mechanism**
+- **Relative Position Encoding**: Improves handling of Vietnamese sentence structure
+- **Mathematical Foundation**:
+  ```
+  Attention(Q,K,V) = softmax((QK^T + RelativePositionBias) / √d_k)V
+  ```
+- **Benefits**: Better long-range dependency modeling for Vietnamese text
+
+#### 2. **Pointer-Generator Networks**
+- **Copy Mechanism**: Handles out-of-vocabulary words and Vietnamese proper nouns
+- **Mathematical Foundation**:
+  ```
+  P_gen = σ(W_h*h_t + W_s*s_t + W_x*x_t + b_ptr)
+  P_final = P_gen * P_vocab + (1 - P_gen) * P_copy
+  ```
+- **Benefits**: Preserves important named entities and technical terms
+
+#### 3. **Coverage Mechanism**
+- **Repetition Reduction**: Tracks attended content to prevent redundancy
+- **Mathematical Foundation**:
+  ```
+  Coverage_t = Σ(i=1 to t-1) attention_i
+  Coverage_loss = Σ min(attention_t, coverage_t)
+  ```
+- **Benefits**: Ensures comprehensive content coverage without repetition
+
+### 🛠 Technical Stack
+- **Base Model**: VietAI/vit5-large-vietnews-summarization (T5 architecture)
+- **Framework**: PyTorch 2.0+, Transformers 4.30+
+- **Vietnamese NLP**: Underthesea, VnCoreNLP
+- **Evaluation**: ROUGE, BLEU, BERTScore, METEOR
+- **Interface**: Streamlit with attention visualization
+- **Monitoring**: Weights & Biases, TensorBoard
 
 ## 📁 Project Structure
 
 ```
-PTITProject/NewsSumarize/
-├── src/
-│   ├── models/              # Enhanced model architectures
-│   ├── data/               # Data processing and loading
-│   ├── training/           # Training scripts and utilities
-│   ├── evaluation/         # Evaluation metrics and analysis
-│   └── utils/              # Helper functions
-├── notebooks/              # Jupyter notebooks for experiments
-├── configs/               # Configuration files
-├── data/                  # Dataset storage
-├── checkpoints/           # Model checkpoints
-├── results/               # Evaluation results
-├── streamlit_app/         # Web interface
-└── requirements.txt       # Dependencies
+NewsSumarize/                         # Clean graduation project structure
+├── src/                             # Main source code package
+│   ├── __init__.py                  # Package initialization
+│   ├── models/                      # Enhanced model architectures
+│   │   ├── __init__.py
+│   │   └── enhanced_t5.py          # Enhanced T5 with attention improvements
+│   ├── data/                       # Data processing and loading
+│   │   ├── __init__.py
+│   │   └── dataset.py              # Vietnamese text preprocessing & datasets
+│   ├── training/                   # Training infrastructure
+│   │   ├── __init__.py
+│   │   └── trainer.py              # Advanced training with curriculum learning
+│   ├── evaluation/                 # Evaluation metrics
+│   │   ├── __init__.py
+│   │   └── metrics.py              # ROUGE, BLEU, BERTScore for Vietnamese
+│   └── utils/                      # Utilities
+│       ├── __init__.py
+│       └── config.py               # Configuration management
+├── scripts/                        # Command-line scripts
+│   ├── train.py                    # Training script
+│   ├── demo.py                     # Quick demo
+│   └── test.py                     # Installation test
+├── configs/                        # Configuration files
+│   └── config.yaml                 # Main configuration
+├── streamlit_app/                  # Web interface
+│   └── app.py                      # Streamlit demo
+├── data/                          # Dataset storage (created automatically)
+├── checkpoints/                   # Model checkpoints (created automatically)
+├── results/                       # Evaluation results (created automatically)
+├── logs/                         # Training logs (created automatically)
+├── requirements.txt              # Dependencies
+└── README.md                     # This file
 ```
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Python 3.8 or higher
+- PyTorch 2.0+ (with CUDA support recommended)
+- 8GB+ RAM (16GB+ recommended for training)
+
 ### Installation
+
+#### Option 1: Install from Source (Recommended)
+```bash
+# Clone the repository
+git clone https://github.com/your-username/vietnamese-summarization.git
+cd vietnamese-summarization
+
+# Install in development mode
+pip install -e .
+
+# Or install with all dependencies
+pip install -e ".[dev,full]"
+```
+
+#### Option 2: Install Dependencies Only
 ```bash
 pip install -r requirements.txt
 ```
 
-### Data Preparation
+### Quick Test
 ```bash
-python src/data/prepare_dataset.py
+# Test that everything is working
+python scripts/test_installation.py
+
+# Run a quick demo (5 minutes)
+python scripts/demo.py
 ```
 
 ### Training
 ```bash
-python src/training/train_enhanced_model.py --config configs/enhanced_config.yaml
+# Basic training with sample data
+python scripts/train.py
+
+# Training with custom configuration
+python scripts/train.py --config vietnamese_summarization/configs/enhanced_config.yaml
+
+# Resume from checkpoint
+python scripts/train.py --resume checkpoints/best_model.pt
 ```
 
 ### Evaluation
 ```bash
-python src/evaluation/evaluate_model.py --model_path checkpoints/best_model.pt
+# Evaluate trained model
+python scripts/evaluate.py --model checkpoints/best_model.pt
+
+# Evaluate on specific split
+python scripts/evaluate.py --model VietAI/vit5-large-vietnews-summarization --split test
 ```
 
-### Demo
+### Interactive Demo
 ```bash
+# Launch Streamlit interface
 streamlit run streamlit_app/app.py
+```
+
+### Command Line Interface
+```bash
+# After installation, you can use console commands
+vietnamese-summarization-train --config configs/enhanced_config.yaml
+vietnamese-summarization-evaluate --model checkpoints/best_model.pt
+vietnamese-summarization-demo
 ```
 
 ## 📊 Key Features
