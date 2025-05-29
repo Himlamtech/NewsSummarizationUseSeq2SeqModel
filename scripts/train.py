@@ -14,7 +14,7 @@ import logging
 from pathlib import Path
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.training.trainer import EnhancedTrainer
 from src.utils.config import load_config, get_default_config

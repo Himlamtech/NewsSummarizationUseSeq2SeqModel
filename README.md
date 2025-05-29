@@ -93,28 +93,19 @@ NewsSumarize/                         # Clean graduation project structure
 
 ### Installation
 
-#### Option 1: Install from Source (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/vietnamese-summarization.git
-cd vietnamese-summarization
+git clone https://github.com/your-username/NewsSumarize.git
+cd NewsSumarize
 
-# Install in development mode
-pip install -e .
-
-# Or install with all dependencies
-pip install -e ".[dev,full]"
-```
-
-#### Option 2: Install Dependencies Only
-```bash
+# Install dependencies
 pip install -r requirements.txt
 ```
 
 ### Quick Test
 ```bash
 # Test that everything is working
-python scripts/test_installation.py
+python scripts/test.py
 
 # Run a quick demo (5 minutes)
 python scripts/demo.py
@@ -126,33 +117,16 @@ python scripts/demo.py
 python scripts/train.py
 
 # Training with custom configuration
-python scripts/train.py --config vietnamese_summarization/configs/enhanced_config.yaml
+python scripts/train.py --config configs/config.yaml
 
-# Resume from checkpoint
-python scripts/train.py --resume checkpoints/best_model.pt
-```
-
-### Evaluation
-```bash
-# Evaluate trained model
-python scripts/evaluate.py --model checkpoints/best_model.pt
-
-# Evaluate on specific split
-python scripts/evaluate.py --model VietAI/vit5-large-vietnews-summarization --split test
+# Training with custom parameters
+python scripts/train.py --epochs 5 --batch-size 8
 ```
 
 ### Interactive Demo
 ```bash
 # Launch Streamlit interface
 streamlit run streamlit_app/app.py
-```
-
-### Command Line Interface
-```bash
-# After installation, you can use console commands
-vietnamese-summarization-train --config configs/enhanced_config.yaml
-vietnamese-summarization-evaluate --model checkpoints/best_model.pt
-vietnamese-summarization-demo
 ```
 
 ## 📊 Key Features

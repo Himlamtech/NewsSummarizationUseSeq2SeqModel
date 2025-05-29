@@ -12,7 +12,7 @@ import logging
 from pathlib import Path
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.models.enhanced_t5 import create_enhanced_model
 from src.data.dataset import load_sample_data
