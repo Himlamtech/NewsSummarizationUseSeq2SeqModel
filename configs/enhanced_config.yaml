@@ -1,0 +1,129 @@
+# Enhanced Vietnamese Summarization Configuration
+
+# Model Configuration
+model:
+  base_model: "VietAI/vit5-large-vietnews-summarization"
+  model_type: "enhanced_t5"
+  max_input_length: 1024
+  max_output_length: 256
+  
+  # Enhancement Configurations
+  enhancements:
+    self_attention:
+      enabled: true
+      num_heads: 16
+      dropout: 0.1
+      
+    pointer_generator:
+      enabled: true
+      coverage_loss_weight: 1.0
+      pointer_gen_loss_weight: 1.0
+      
+    coverage_mechanism:
+      enabled: true
+      coverage_loss_weight: 1.0
+      lambda_coverage: 1.0
+
+# Data Configuration
+data:
+  dataset_name: "vietnews"
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  
+  # Data Processing
+  preprocessing:
+    clean_text: true
+    normalize_unicode: true
+    remove_special_chars: false
+    min_input_length: 50
+    max_input_length: 1024
+    min_summary_length: 10
+    max_summary_length: 256
+    
+  # Tokenization
+  tokenizer:
+    type: "sentencepiece"
+    vocab_size: 32000
+    model_type: "bpe"
+
+# Training Configuration
+training:
+  # Basic Training
+  batch_size: 8
+  gradient_accumulation_steps: 4
+  learning_rate: 5e-5
+  num_epochs: 10
+  warmup_steps: 1000
+  weight_decay: 0.01
+  
+  # Advanced Training Techniques
+  curriculum_learning:
+    enabled: true
+    start_length: 256
+    end_length: 1024
+    progression_epochs: 3
+    
+  teacher_forcing:
+    enabled: true
+    initial_ratio: 1.0
+    final_ratio: 0.5
+    decay_steps: 5000
+    
+  # Optimization
+  optimizer: "adamw"
+  scheduler: "cosine_with_restarts"
+  gradient_clipping: 1.0
+  
+  # Regularization
+  dropout: 0.1
+  label_smoothing: 0.1
+  
+  # Checkpointing
+  save_steps: 1000
+  eval_steps: 500
+  logging_steps: 100
+  save_total_limit: 3
+
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - "rouge"
+    - "bleu"
+    - "bertscore"
+    - "meteor"
+    
+  # Generation Parameters
+  generation:
+    num_beams: 4
+    length_penalty: 2.0
+    repetition_penalty: 1.2
+    no_repeat_ngram_size: 3
+    early_stopping: true
+    
+  # Beam Search
+  beam_search:
+    num_beams: [1, 2, 4, 8]
+    length_penalty: [1.0, 1.5, 2.0]
+    repetition_penalty: [1.0, 1.1, 1.2]
+
+# Logging and Monitoring
+logging:
+  use_wandb: true
+  project_name: "vietnamese-summarization-enhancement"
+  experiment_name: "enhanced_vit5_large"
+  log_level: "INFO"
+  
+# Hardware Configuration
+hardware:
+  device: "auto"  # auto, cpu, cuda
+  mixed_precision: true
+  dataloader_num_workers: 4
+  pin_memory: true
+
+# Paths
+paths:
+  data_dir: "data/"
+  checkpoint_dir: "checkpoints/"
+  results_dir: "results/"
+  logs_dir: "logs/"
