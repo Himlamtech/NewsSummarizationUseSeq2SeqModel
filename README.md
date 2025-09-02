@@ -309,3 +309,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Note**: This is a graduation thesis project demonstrating advanced NLP techniques for Vietnamese text summarization. The implementation focuses on research and educational purposes.
+# NewsSumarize
